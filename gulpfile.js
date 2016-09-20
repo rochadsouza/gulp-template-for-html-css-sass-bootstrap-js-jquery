@@ -371,53 +371,54 @@ gulp.task('build', [
  *
  * Finally, changes to images also trigger a browser reload.
  */
-gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHTML'],
-    function () {
-        'use strict';
+ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHTML'],
+ function () {
+	 'use strict';
 
-        browserSync({
-            notify: true,
-            port: 9000,
-            reloadDelay: 100,
-            browser: browserChoice,
-            server: {
-                baseDir: [
-                    config.baseFolders.tmp,
-                    config.baseFolders.dev,
-                    config.baseFolders.dev + config.scaffoldFolders.html
-                ]
-            }
-        });
+	 browserSync({
+		 notify: true,
+		 port: 9000,
+		 reloadDelay: 100,
+		 browser: browserChoice,
+		 server: {
+			 baseDir: [].concat(
+				 		config.baseFolders.libs,
+						config.baseFolders.tmp,
+						config.baseFolders.dev,
+						config.baseFolders.dev + config.scaffoldFolders.html
+					)
+		 }
+	 });
 
-        gulp.watch(config.baseFolders.dev +
-            config.scaffoldFolders.js + '*.js',
-            ['compileJSForDev', 'lintJS']).on(
-            'change',
-            reload
-        );
+	 gulp.watch(config.baseFolders.dev +
+		 config.scaffoldFolders.js + '*.js',
+		 ['compileJSForDev', 'lintJS']).on(
+			 'change',
+			 reload
+		 );
 
-        gulp.watch(config.baseFolders.dev +
-            config.scaffoldFolders.images + '**/*').on(
-            'change',
-            reload
-        );
+	 gulp.watch(config.baseFolders.dev +
+		 config.scaffoldFolders.images + '**/*').on(
+			 'change',
+			 reload
+		 );
 
-        gulp.watch([config.baseFolders.dev +
-            config.scaffoldFolders.html + '**/*.html'],
-            ['validateHTML']).on(
-            'change',
-            reload
-        );
+	 gulp.watch([config.baseFolders.dev +
+		 config.scaffoldFolders.html + '**/*.html'],
+		 ['validateHTML']).on(
+			 'change',
+			 reload
+		 );
 
-        gulp.watch(config.baseFolders.dev +
-            config.scaffoldFolders.styles + '**/*.scss',
-            ['compileCSSForDev']).on(
-            'change',
-            reload
-        );
-    });
+	 gulp.watch(config.baseFolders.dev +
+		 config.scaffoldFolders.styles + '**/*.scss',
+		 ['compileCSSForDev']).on(
+			 'change',
+			 reload
+		 );
+});
 
-/**
+ /**
  * CLEAN
  *
  * This task deletes the folders pointed to by the config.baseFolders.tmp and
@@ -425,57 +426,57 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
  * Gulp creates them as temporary folders during the serve process and via the build
  * task.
  */
-gulp.task('clean', function () {
-    'use strict';
+ gulp.task('clean', function () {
+	 'use strict';
 
-    var fs = require('fs'),
-        i,
-        expendableFolders = [config.baseFolders.tmp, config.baseFolders.prod];
+	 var fs = require('fs'),
+	 i,
+	 expendableFolders = [config.baseFolders.tmp, config.baseFolders.prod];
 
-    for (i = 0; i < expendableFolders.length; i += 1) {
-        try {
-            fs.accessSync(expendableFolders[i], fs.F_OK);
-            process.stdout.write('\n\tThe ' + colors.green + expendableFolders[i] +
-                    colors.default + ' directory was found and ' + colors.green +
-                    'will' + colors.default + ' be deleted.\n');
-            del(expendableFolders[i]);
-        } catch (error) {
-            if (error) {
-                process.stdout.write('\n\tThe ' + colors.red +
-                        expendableFolders[i] + colors.default +
-                        ' directory does ' + colors.red + 'not' + colors.default +
-                        ' exist or is ' + colors.red + 'not' + colors.default +
-                        ' accessible.\n');
-            }
-        }
-    }
+	 for (i = 0; i < expendableFolders.length; i += 1) {
+		 try {
+			 fs.accessSync(expendableFolders[i], fs.F_OK);
+			 process.stdout.write('\n\tThe ' + colors.green + expendableFolders[i] +
+			 colors.default + ' directory was found and ' + colors.green +
+			 'will' + colors.default + ' be deleted.\n');
+			 del(expendableFolders[i]);
+		 } catch (error) {
+			 if (error) {
+				 process.stdout.write('\n\tThe ' + colors.red +
+				 expendableFolders[i] + colors.default +
+				 ' directory does ' + colors.red + 'not' + colors.default +
+				 ' exist or is ' + colors.red + 'not' + colors.default +
+				 ' accessible.\n');
+			 }
+		 }
+	 }
 
-    process.stdout.write('\n');
-});
+	 process.stdout.write('\n');
+ });
 
-/**
+ /**
  * DEFAULT
  *
  * This task does nothing but list the available tasks in this file.
  */
-gulp.task('default', function () {
-    'use strict';
+ gulp.task('default', function () {
+	 'use strict';
 
-    var exec = require('child_process').exec;
+	 var exec = require('child_process').exec;
 
-    exec('gulp --tasks', function (error, stdout, stderr) {
-        if (null !== error) {
-            process.stdout.write('An error was likely generated when invoking ' +
-                    'the `exec` program in the default task.');
-        }
+	 exec('gulp --tasks', function (error, stdout, stderr) {
+		 if (null !== error) {
+			 process.stdout.write('An error was likely generated when invoking ' +
+			 'the `exec` program in the default task.');
+		 }
 
-        if ('' !== stderr) {
-            process.stdout.write('Content has been written to the stderr stream ' +
-                    'when invoking the `exec` program in the default task.');
-        }
+		 if ('' !== stderr) {
+			 process.stdout.write('Content has been written to the stderr stream ' +
+			 'when invoking the `exec` program in the default task.');
+		 }
 
-        process.stdout.write('\n\tThis default task does ' + colors.red +
-                'nothing' + colors.default + ' but generate this message. The ' +
-                'available tasks are:\n\n' + stdout);
-    });
-});
+		 process.stdout.write('\n\tThis default task does ' + colors.red +
+		 'nothing' + colors.default + ' but generate this message. The ' +
+		 'available tasks are:\n\n' + stdout);
+	 });
+ });

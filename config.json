@@ -9,7 +9,8 @@
     "baseFolders": {
         "dev": "dev/",
         "tmp": "temp/",
-        "prod": "prod/"
+        "prod": "prod/",
+	  "libs": ["bower_components/"]
     },
 
     "scaffoldFolders": {

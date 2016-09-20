@@ -1,0 +1,32 @@
+{
+  "name": "gulp-template-for-html-css-sass-js",
+  "description": "An automation template for HTML, CSS, Sass, and JavaScript.",
+  "main": "gulpfile.js",
+  "authors": [
+    "Subtl"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "gulp",
+    "automation",
+    "template",
+    "html",
+    "css",
+    "sass",
+    "javascript"
+  ],
+  "homepage": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bower": "*",
+    "install": "^1.0.4",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.0"
+  }
+}
